@@ -1,2 +1,5 @@
 .idea/
 mutagen.yml.lock
+.databases
+.editorconfig
+docroot/

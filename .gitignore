@@ -1,5 +1,10 @@
 .idea/
 mutagen.yml.lock
-.databases
-.editorconfig
-docroot/
+mariadb-init/
+.databases/
+.env
+Makefile
+docker-compose.override.yml
+docker-compose.yml
+docker.Makefile
+docroot/sites/*/settings.local.php

@@ -1,0 +1,100 @@
+<p>Enabling the <strong>Entity API</strong> module lets you use entity
+metadata wrappers to generate markup using the phone field.
+
+<p>For more about this, please see the
+<a href="https://www.drupal.org/docs/7/api/entity-api/property-info-for-fields">Entity API</a>
+documentation @ Drupal.org.</p>
+
+<h2>Example</h2>
+
+<p>Below is an example function that makes use of entity field
+wrappers to produce custom markup.</p>
+
+<p>The API function <code>field_info_instance()</code> needs the
+entity type passed as its first argument.  In the example below, I
+determine this by assuming that if the bundle is not “user” it must be
+“node”.  If you want to do this more more robustly, you may
+use <code>field_info_field()</code> to get <em>all</em> the entity
+types by that use the field, and then teh association between entity
+type and bundle.  The two code lines below shows how to get the data.
+To figure out the correct entity type for the field instance is left
+as an exercise for the reader.</p>
+
+<pre>
+$fif = field_info_field($fieldname);
+dpm($fif['bundles'], 'fif - entity_type - N - bundle');
+</pre>
+
+<p>Here is the complete example function:</p>
+  
+<pre>
+/**
+ * Example of using field wrappers.
+ *
+ * Demonstrate use of a field wrapper when a phonefield is attached to
+ * an entity.
+ *
+ * @param string $fieldname
+ *   Name of the field to wrap.
+ * @param string/int $phoneno
+ *   The phonenumber to look up.
+ *
+ */
+function example_entity_wrapper($fieldname, $phoneno) {
+  if (!module_exists('entity')) {
+    return;
+  }
+  $eid = phonefield_get_entity_id($fieldname, $phoneno);
+  if (empty($eid)) {
+    drupal_set_message(t('No entity matching phonenumber @phoneno found.',
+      array('@phoneno' => $phoneno)));
+    return;
+  }
+  // Guess entity type: 'user' or 'node'. See above for getting all types.
+  $entity_type = 'user' == $eid['bundle'] ? 'user' : 'node';
+  $fii = field_info_instance($entity_type, $fieldname, $eid['bundle']);
+  if ('static' == $fii['settings']['linkstate']) {
+    // Get link label when link label is static.
+    $linklabel = $fii['settings']['linkvalue'];
+  }
+  else {
+    // Default to an empty label.
+    $linklabel = '';
+  }
+
+  // Load the entity. Expand for other entity types.
+  if ('user' == $entity_type) {
+    $entity = user_load($eid['entity_id']);
+  }
+  else {
+    $entity = node_load($eid['entity_id']);
+  }
+  $wrapped_entity = entity_metadata_wrapper($entity_type, $entity);
+  $phone_numbers = $wrapped_entity->$fieldname->value();
+  // Loop through all phone numbers attached to the node.
+  if ($phone_numbers) {
+    foreach ($phone_numbers as $key => $phone_number) {
+      if ('optional' == $fii['settings']['linkstate']) {
+        $linklabel = $phone_number['linklabel'];
+     }
+      $markup['phone'][$key] = [
+        '#markup' =&gt; '&lt;span class="label"&gt;' . $linklabel . '&lt;/span&gt;: '
+          . l($phone_number['phonenumber'], 'tel:' . $phone_number['normalized']),
+      ];
+    }
+    foreach ($markup['phone'] as $phoneitem) {
+      drupal_set_message($phoneitem['#markup']);
+    }
+  }
+}
+</pre>
+
+<p>Here is an example that shows how one may callthis function if the
+phone field is named “<code>field_contact_phone</code>” and the
+ phonenumber is “+1 202-555-0155”.
+
+  :</p>
+
+<pre>
+example_entity_wrapper('field_contact_phone', '+1 202-555-0155');
+</pre>

@@ -1,0 +1,9 @@
+name = Login with email only
+description = Allow users to log in exclusively with the email address using the input box on the login form.
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2019-12-17
+version = "7.x-1.1"
+core = "7.x"
+project = "login_onlyemail"
+datestamp = "1576612991"

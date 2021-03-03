@@ -1,0 +1,118 @@
+<?php
+
+/**
+ * @file
+ * Allows users to login exclusively with their email address in the input box.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function login_onlyemail_form_user_login_alter(&$form, &$form_state, $form_id) {
+  // Modifies the user login form.
+  $form['name']['#title'] = t('Email address');
+  $form['name']['#description'] = t('Enter your email address.');
+  $form['name']['#element_validate'][] = 'login_onlyemail_user_login_validate';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function login_onlyemail_form_user_login_block_alter(&$form, &$form_state, $form_id) {
+  // Modifies the user login block form.
+  $form['name']['#title'] = t('Email address');
+  $form['name']['#element_validate'][] = 'login_onlyemail_user_login_validate';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function login_onlyemail_form_user_pass_alter(&$form, &$form_state, $form_id) {
+  // Modifies the forgot password form.
+  $form['name']['#title'] = t('Email address');
+  $form['name']['#description'] = t('Enter your email address.');
+  $form['name']['#element_validate'][] = 'login_onlyemail_user_pass_validate';
+}
+
+/**
+ * Form element validation handler for the user login form.
+ *
+ * Allows users to authenticate by email.
+ */
+function login_onlyemail_user_login_validate($form, &$form_state) {
+  $name_input = $form_state['values']['name'];
+
+  // Try loading by email.
+  if ($user = user_load_by_mail($name_input)) {
+    // Set the username for further validation.
+    $form_state['values']['name'] = $user->name;
+    return TRUE;
+  }
+
+  // Set error message.
+  $query = isset($name_input) ? array('name' => $name_input) : array();
+  form_set_error('name', t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', array('@password' => url('user/password', array('query' => $query)))));
+  $form_state['rebuild'] = TRUE;
+  return FALSE;
+}
+
+/**
+ * Form element validation handler for the forgot password form.
+ *
+ * Allows users to recover the password using email.
+ */
+function login_onlyemail_user_pass_validate($form, &$form_state) {
+  $name_input = $form_state['values']['name'];
+
+  // Try loading by email.
+  if ($user = user_load_by_mail($name_input)) {
+    // Set the username for further validation.
+    $form_state['values']['name'] = $user->name;
+    return TRUE;
+  }
+
+  // Set error message.
+  $query = $name_input != '' ? $name_input : "This";
+  form_set_error('name', t('%email is not a registered email address.',
+      ['%email' => $query]));
+  $form_state['rebuild'] = TRUE;
+  return FALSE;
+}
+
+/**
+ * Implements hook_help().
+ */
+function login_onlyemail_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#login_onlyemail':
+
+      $filepath = dirname(__FILE__) . '/README.md';
+      if (file_exists($filepath)) {
+        $readme = file_get_contents($filepath);
+      }
+      else {
+        $filepath = dirname(__FILE__) . '/README.txt';
+        if (file_exists($filepath)) {
+          $readme = file_get_contents($filepath);
+        }
+      }
+      if (!isset($readme)) {
+        return NULL;
+      }
+      if (module_exists('markdown')) {
+        $filters = module_invoke('markdown', 'filter_info');
+        $info = $filters['filter_markdown'];
+        if (function_exists($info['process callback'])) {
+          $output = $info['process callback']($readme, NULL);
+        }
+        else {
+          $output = '<pre>' . $readme . '</pre>';
+        }
+      }
+      else {
+        $output = '<pre>' . $readme . '</pre>';
+      }
+
+      return $output;
+  }
+}

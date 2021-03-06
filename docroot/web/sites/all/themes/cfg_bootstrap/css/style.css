@@ -23,7 +23,7 @@ div#nav-bar {
     box-shadow: 0px 4px 4px rgba(0,0,0,0.4);
     border: none;
     border-radius: 0;
-    margin-bottom: 0;
+    margin-bottom: 21px;
 }
 
 header#navbar {
@@ -60,4 +60,100 @@ body {
     /* right: 0; */
     width: 100%;
     bottom: -20px;
+}
+
+.view-id-shop.view-display-id-page .row {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #000;
+}
+
+div#slideshow {
+    margin: -20px !important;
+}
+
+@media (max-width: 769px){
+    .footer {
+        bottom: -370px;
+        position: relative;
+    }
+    .region.region-slideshow {
+        display: none;
+    }
+}
+
+.region.region-slideshow {
+    background-color: #333333;
+}
+
+div#flexslider-1 {
+    margin: 0 0 40px;
+    border-bottom: 0px;
+    border-top: 0px;
+}
+
+.main-container.container {
+    margin-top: 40px;
+}
+
+.view-shopping-cart span.line-item-quantity-label {
+    display: none;
+}
+
+.region-header-toolbar a {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--color-primary-taccon);
+    font-size: 16px;
+    padding: 8px;
+    transition: 0.3s;
+    position: relative;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    text-decoration: none !important;
+    width: fit-content;
+    min-width: 33px;
+    margin-left: 5px;
+    height: 43px;
+}
+
+.region-header-toolbar a:hover, .region-header-toolbar li a:hover {
+    color: var(--color-secondary-taccon);
+    background: var(--color-primary-taccon);
+}
+
+a#cart-icon-link .circle {
+    background: red;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: -3px;
+    right: -3px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.region.region-header-toolbar {
+    display: flex;
+    align-items: center;
+    height: 115px;
+    flex-flow: row;
+    justify-content: flex-end;
+}
+
+.view-shopping-cart .line-item-summary {
+    margin-bottom: 0px;
+}
+
+section#block-block-3 {
+    display: flex;
+}
+
+.region.region-header-toolbar i {
+    font-size: 20px;
 }

@@ -10,7 +10,9 @@ php = 5.3.0
 ;;;;;;;;;;;;;;;;;;;;;
 
 regions[navigation]     = 'Navigation'
+regions[slideshow]      = 'Slideshow'
 regions[header]         = 'Top Bar'
+regions[header_toolbar] = 'Header Toolbar'
 regions[highlighted]    = 'Highlighted'
 regions[help]           = 'Help'
 regions[content]        = 'Content'

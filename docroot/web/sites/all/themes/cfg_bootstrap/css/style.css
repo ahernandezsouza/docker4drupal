@@ -100,7 +100,7 @@ div#flexslider-1 {
     display: none;
 }
 
-.region-header-toolbar a {
+.region-header-toolbar ul.nav a, a#cart-icon-link {
     background: rgba(0, 0, 0, 0.05);
     color: var(--color-primary-taccon);
     font-size: 16px;
@@ -117,7 +117,7 @@ div#flexslider-1 {
     height: 43px;
 }
 
-.region-header-toolbar a:hover, .region-header-toolbar li a:hover {
+.region-header-toolbar ul.nav a:hover, .region-header-toolbar ul.nav li a:hover, a#cart-icon-link:hover {
     color: var(--color-secondary-taccon);
     background: var(--color-primary-taccon);
 }
@@ -150,7 +150,7 @@ a#cart-icon-link .circle {
     margin-bottom: 0px;
 }
 
-section#block-block-3 {
+ul.nav.social {
     display: flex;
 }
 

@@ -180,10 +180,19 @@
   </div>
 </div>
 
-<?php if (!empty($page['footer'])): ?>
   <footer class="footer <?php print (str_replace('container', 'container-fluid', $navbar_classes)); ?>">
     <div class="container">
-      <?php print render($page['footer']); ?>
+      <?php if (!empty($page['footer'])): ?>
+      <div class="row">
+        <?php print render($page['footer']); ?>
+      </div>
+      <?php endif; ?>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"><?php print render($page['footer_sidebar1']); ?></div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"><?php print render($page['footer_sidebar2']); ?></div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"><?php print render($page['footer_sidebar3']); ?></div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"><?php print render($page['footer_sidebar4']); ?></div>
+      </div>
     </div>
   </footer>
-<?php endif; ?>
+

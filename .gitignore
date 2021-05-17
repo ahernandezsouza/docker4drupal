@@ -8,3 +8,5 @@ docker-compose.override.yml
 docker-compose.yml
 docker.Makefile
 docroot/sites/*/settings.local.php
+docroot/private/backup_migrate/scheduled
+docroot/private/backup_migrate/manual

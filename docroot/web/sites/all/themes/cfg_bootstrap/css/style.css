@@ -239,3 +239,8 @@ div#slide-block {
     height: 40px;
     align-items: center;
 }
+
+a.logo.navbar-btn.pull-left {
+    overflow: hidden;
+    width: 200px;
+}
